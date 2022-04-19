@@ -32,18 +32,15 @@ def main():
     except Exception as err:
         logging.error('error opening file, {}'.format(err))
         return 1
-    
     f_open.close()
+
     cleared_jupyter_json = clear_jupyter_output(jupyter_json)
-
-    print(jupyter_json)
-    print(cleared_jupyter_json)
-
     if cleared_jupyter_json is not None:
         f_write = open(sys.argv[1], 'w')
         json.dump(cleared_jupyter_json, f_write)
     else:
         logging.error('could not process jupyter file')
+        return 1
 
     return 0
 
