@@ -23,6 +23,7 @@ def main(jupyter_file, not_clear_signal):
         return 1
     f_open.close()
 
+    # write cleared json
     cleared_jupyter_json = clear_jupyter_output(jupyter_json, not_clear_signal)
     if cleared_jupyter_json is not None:
         f_write = open(jupyter_file, 'w')
