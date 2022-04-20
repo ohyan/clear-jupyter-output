@@ -4,39 +4,28 @@ import logging
 import os
 import copy
 from typing import Dict
+import click
 
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
-def clear_cell():
-    return
 
-
-def main():
-    if len(sys.argv) < 2:
-        logging.error('not enough arguments')
-        return 1
-    
-    if not os.path.exists(sys.argv[1]):
-        logging.error('file does not exist')
-        return 1
-
-    if not sys.argv[1].endswith('.ipynb'):
-        logging.error('file is not a notebook')
-        return 1
-
+@click.command()
+@click.option('--jupyter_file', help='jupyter notebook neet to be cleared output')
+@click.option('--not_clear_signal', help='not clear cell signal', default='commit-output')
+def main(jupyter_file, not_clear_signal):  
     # read json
     try:
-        f_open = open(sys.argv[1], 'r')
+        f_open = open(jupyter_file, 'r')
         jupyter_json = json.load(f_open)
     except Exception as err:
         logging.error('error opening file, {}'.format(err))
         return 1
     f_open.close()
 
-    cleared_jupyter_json = clear_jupyter_output(jupyter_json)
+    cleared_jupyter_json = clear_jupyter_output(jupyter_json, not_clear_signal)
     if cleared_jupyter_json is not None:
-        f_write = open(sys.argv[1], 'w')
+        f_write = open(jupyter_file, 'w')
         json.dump(cleared_jupyter_json, f_write)
     else:
         logging.error('could not process jupyter file')

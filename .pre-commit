@@ -1,0 +1,8 @@
+#!/bin/sh
+
+PYTHON=python3
+
+
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.ipynb$'); do
+    $PYTHON clear-output.py --jupyter_file $file --not_clear_signal commit-output
+done
