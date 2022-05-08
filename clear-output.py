@@ -1,13 +1,7 @@
-import sys
 import json
-import logging
-import os
 import copy
-from typing import Dict
 import click
-
-
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+from typing import Dict
 
 
 @click.command()
